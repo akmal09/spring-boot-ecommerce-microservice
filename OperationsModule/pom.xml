@@ -18,11 +18,11 @@
 		<spring-cloud.version>2023.0.5</spring-cloud.version>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>com.project</groupId>
-			<artifactId>product-service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.project</groupId>-->
+<!--			<artifactId>product-service</artifactId>-->
+<!--			<version>0.0.1-SNAPSHOT</version>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jdbc</artifactId>
