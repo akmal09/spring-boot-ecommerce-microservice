@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.project</groupId>
 	<artifactId>ecommerce</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>ecommerce</name>
-	<description>E-commerce portofolio for Akmal Fauzan</description>
+	<description>Microservice Concept </description>
 	<packaging>pom</packaging>
 	<properties>
 		<java.version>17</java.version>
-		<spring-boot-starter-parent.version>3.2.4</spring-boot-starter-parent.version>
+		<spring.boot.version>3.2.4</spring.boot.version>
 	</properties>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring.boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<modules>
+		<module>config</module>
+		<module>eureka-server</module>
+		<module>operations-service</module>
 		<module>product-service</module>
 	</modules>
-<!--	<modules>-->
-<!--		<module>product-service</module>-->
-<!--	</modules>-->
-
 </project>
