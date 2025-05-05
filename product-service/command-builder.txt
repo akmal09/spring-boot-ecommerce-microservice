@@ -1,0 +1,6 @@
+mvn clean install -DskipTests
+docker build -t akmal23/product-service:1.0.0 .
+==========NOTES:==========
+1. You must create network who name db-ecommerce-net who connect to our postgresql container database (if the postgresql is also using container).
+==========================
+docker run --name product-service -d -p 8081:8081 --network db-ecommerce-net akmal23/product-service:1.0.0

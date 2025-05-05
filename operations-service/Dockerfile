@@ -11,7 +11,7 @@ WORKDIR /app
 COPY target/operations-service-1.0.0.jar app.jar
 
 # Expose port (make sure this matches your Eureka `server.port`)
-EXPOSE 8082
+EXPOSE 8081
 
 # Run the application
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

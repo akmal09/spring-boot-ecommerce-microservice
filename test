@@ -1,3 +1,6 @@
 docker run --name eureka-server -d -p 8761:8761 akmal23/eureka-server:1.0.0
 docker run --name operations-service -d -p 8082:8082  akmal23/operations-service:1.0.0
-docker run --name product-service -d -p 8081:8081 akmal23/product-service:1.0.0
+docker run --name product-service -d -p 8081:8081 --network db-ecommerce-net akmal23/product-service:1.0.0
+
+docker run --name product-service -d -p 8081:8081 --network db-ecommerce-net akmal23/product-service:1.0.0
+docker build -t akmal23/product-service:1.0.0 .
