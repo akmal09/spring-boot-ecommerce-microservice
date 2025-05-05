@@ -1,0 +1,20 @@
+services:
+  operations-service:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: operations-service
+    ports:
+      - "${SERVICE_HOST}:8082"
+    environment:
+      SERVICE_HOST: "${SERVICE_HOST}"
+      DB_HOST: "${DB_HOST}"
+      DB_PORT: "${DB_PORT}"
+      DB_USERNAME: "${DB_USERNAME}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      EUREKA_HOST: "${EUREKA_HOST}"
+    networks:
+      - db-ecommerce-net
+networks:
+  db-ecommerce-net:
+    external: true
