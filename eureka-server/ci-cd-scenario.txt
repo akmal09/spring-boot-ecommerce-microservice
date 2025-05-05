@@ -1,0 +1,50 @@
+1. mvn test
+2. mvn build
+example pipeline:
+name: CI/CD Pipeline
+```
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend  # <- adjust if your Spring Boot code is in subfolder
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Run unit tests with Maven
+        run: mvn test  # or ./mvnw test if using wrapper
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: success()  # Only run if tests pass
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AZURE_VM_IP }}
+          username: ${{ secrets.AZURE_VM_USERNAME }}
+          key: ${{ secrets.AZURE_VM_SSH_KEY }}
+          script: |
+            cd /path/to/your/docker-compose-yml-repo
+            docker-compose down
+            docker-compose up --build -d
+```
