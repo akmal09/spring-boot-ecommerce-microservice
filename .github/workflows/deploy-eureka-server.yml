@@ -26,7 +26,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Run unit tests
-        run: ./mvnw test
+        run: ./mvn test
 
       - name: Build and run Docker container
         run: docker-compose --project-name "eureka-server" -f ./builder/docker-compose.yml up --build -d
