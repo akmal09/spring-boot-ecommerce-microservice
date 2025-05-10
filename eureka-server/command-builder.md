@@ -1,4 +1,4 @@
-[//]: # (This is for docker explanation trigger ci cd)
+[//]: # (This is for docker explanation trigger ci cd 1.0)
 NOTE:
 Important command:
 git diff --name-only
