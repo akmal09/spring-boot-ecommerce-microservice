@@ -19,13 +19,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build and run Docker container
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
         with:
-          host: ${{ secrets.AZURE_VM_IP }}
-          username: ${{ secrets.AZURE_VM_USER }}
-          key: ${{ secrets.AZURE_SSH_KEY }}
-          script: |
-            echo "Starting build"
-            cd /home/azureuser/ecommerce_builder/eureka-server
-            docker-compose --project-name "eureka-server" -f ./docker-compose-eureka.yml up --build -d
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Run unit tests
+        run: mvn test
+
+      - name: Build and run Docker container
+        run: docker-compose --project-name "eureka-server" -f ./builder/docker-compose.yml up --build -d
