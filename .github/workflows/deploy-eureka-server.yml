@@ -25,6 +25,7 @@ jobs:
           host: ${{ secrets.AZURE_VM_IP }}
           username: ${{ secrets.AZURE_VM_USER }}
           key: ${{ secrets.AZURE_SSH_KEY }}
-          scripts: |
+          script: |
+            echo "Starting build"
             cd /home/azureuser/ecommerce_builder/eureka-server
             docker-compose --project-name "eureka-server" -f ./docker-compose-eureka.yml up --build -d
