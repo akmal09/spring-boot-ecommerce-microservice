@@ -1,0 +1,15 @@
+services:
+  eureka-server:
+    build:
+      context: .
+      dockerfile: Dockerfile_eureka
+    container_name: eureka-server
+    ports:
+      - "${SERVICE_PORT}:8761"
+    environment:
+      SERVICE_PORT: "${SERVICE_PORT}"
+    networks:
+      - db-ecommerce-net
+networks:
+  db-ecommerce-net:
+    external: true
