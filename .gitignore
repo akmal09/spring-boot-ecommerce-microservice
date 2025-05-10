@@ -36,3 +36,5 @@ build/
 /operations-service/builder/.env
 .\eureka-server\Dockerfile_eureka
 .\eureka-server\builder\docker-compose-eureka.yml
+/eureka-server/builder/docker-compose-eureka.yml
+/eureka-server/Dockerfile_eureka
