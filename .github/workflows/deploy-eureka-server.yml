@@ -28,4 +28,4 @@ jobs:
           script: |
             echo "Starting build"
             cd /home/azureuser/ecommerce_builder/eureka-server
-            sudo docker-compose --project-name "eureka-server" -f ./docker-compose-eureka.yml up --build -d
+            docker-compose --project-name "eureka-server" -f ./docker-compose-eureka.yml up --build -d
