@@ -1,11 +1,11 @@
-name: Deploy Eureka Server
+name: Deploy Product Service
 
 on:
   push:
     branches:
       - publish
     paths:
-      - 'product-service/**'  # Only trigger when something in eureka-server changes
+      - 'product-service/**'  # Only trigger when something in product-service changes
 
 jobs:
   test-and-deploy:

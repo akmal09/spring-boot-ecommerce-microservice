@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class ProductServiceApplication {
 
 	public static void main(String[] args) {
-		System.out.println("Product Service Initiate to Run 1.0");
+		System.out.println("Product Service Initiate to Run 2.0");
 		SpringApplication.run(ProductServiceApplication.class, args);
 	}
 
