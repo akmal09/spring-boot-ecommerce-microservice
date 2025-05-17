@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class ProductServiceApplication {
 
 	public static void main(String[] args) {
+		System.out.println("Product Service Initiate to Run");
 		SpringApplication.run(ProductServiceApplication.class, args);
 	}
 

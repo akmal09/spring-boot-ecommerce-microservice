@@ -1,0 +1,32 @@
+name: Deploy Eureka Server
+
+on:
+  push:
+    branches:
+      - publish
+    paths:
+      - 'product-service/**'  # Only trigger when something in eureka-server changes
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: product-service
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+# NOTES:
+# Jangan lupa jalanin ini kalau docker-ompose nya error "sudo usermod -aG docker azureuser"
+      - name: Build and run Docker container
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AZURE_VM_IP }}
+          username: ${{ secrets.AZURE_VM_USER }}
+          key: ${{ secrets.AZURE_SSH_KEY }}
+          script: |
+            echo "Starting build"
+            cd /home/azureuser/ecommerce_builder/product-service
+            docker-compose --project-name "product-service" -f ./docker-compose-product-ser.yml up --build -d
