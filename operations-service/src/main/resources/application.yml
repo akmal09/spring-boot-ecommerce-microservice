@@ -1,14 +1,14 @@
 server:
-  port: 8082  # Make sure it's unique per service
+  port: ${SERVICE_HOST:8082}  # Make sure it's unique per service
 
 spring:
   application:
     name: operations-service  # This is important for Eureka registration
 
   datasource:
-    url: jdbc:postgresql://localhost:5000/ecommerce_akmal
-    username: ecommerce-akmal
-    password: akmal2121234
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5000}/ecommerce_akmal
+    username: ${DB_USERNAME:ecommerce-akmal}
+    password: ${DB_PASSWORD:akmal2121234}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -22,6 +22,6 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
   instance:
     prefer-ip-address: true
