@@ -1,3 +1,0 @@
-@echo off
-echo Running mvn clean install...
-mvn clean install || exit /b 1
