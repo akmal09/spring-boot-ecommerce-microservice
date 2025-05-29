@@ -1,7 +1,17 @@
-sh ./list-services/db.sh
+#!/bin/bash
+set -e
+docker network create ecommerce-net
 
-sh ./list-services/eureka-service.sh
+echo "Starting containers..."
 
-sh ./list-services/product-service.sh
+MODULES=("db-services" "eureka-server" "product-service" "operation-service")
 
-sh ./list-services/operation-service.sh
+for MODULE in "${MODULES[@]}"; do
+  echo "--------------------------------------"
+  echo "Starting services in: $MODULE"
+  echo "--------------------------------------"
+  docker-compose -f "$MODULE/docker-compose.yml" up -d
+done
+
+echo ""
+echo "✅ All containers started successfully."

@@ -1,4 +1,5 @@
 docker network create ecommerce-net
+echo "$(pwd)"
 
 docker-compose -f "../db-services/docker-compose.yml" up
 
