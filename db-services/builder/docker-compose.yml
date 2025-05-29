@@ -1,6 +1,4 @@
-version: '3.8' # Using a recent Docker Compose file format version
-
-services:
+ervices:
   db-ecommerce-akmal:
     image: "${DOCKER_IMAGE_NAME}"
     container_name: db-ecommerce-akmal
@@ -22,6 +20,6 @@ services:
 volumes:
   db_data: # Define the named volume
 
-networks: # Define the custom network
+networks:
   db-ecommerce-net:
-    driver: bridge 
+    external: true
