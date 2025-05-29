@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-docker network create ecommerce-net
+docker network create db-ecommerce-net
 
 echo "Starting containers..."
 
