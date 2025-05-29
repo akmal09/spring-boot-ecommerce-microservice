@@ -47,12 +47,12 @@ docker network create db-ecommerce-net
 
 echo "Starting containers..."
 
-docker-compose -f "./db-services/builder/docker-compose.yml" up -d
+docker-compose -f "./db-services/builder/docker-compose.yml" up --remove-orphans -d 
 sleep 5
-docker-compose -f "./eureka-server/builder/docker-compose.yml" up -d
+docker-compose -f "./eureka-server/builder/docker-compose.yml" up --remove-orphans -d
 sleep 10
-docker-compose -f "./product-service/builder/docker-compose.yml" up -d
+docker-compose -f "./product-service/builder/docker-compose.yml" up --remove-orphans -d
 
-docker-compose -f "./operations-service/builder/docker-compose.yml" up -d
+docker-compose -f "./operations-service/builder/docker-compose.yml" up --remove-orphans -d
 
 echo "✅ All containers started successfully."
