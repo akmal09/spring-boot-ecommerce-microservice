@@ -1,0 +1,27 @@
+version: '3.8' # Using a recent Docker Compose file format version
+
+services:
+  db-ecommerce-akmal:
+    image: "${DOCKER_IMAGE_NAME}"
+    container_name: db-ecommerce-akmal
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    ports:
+      - "${DB_PORT}:5432" # Map host port 5000 to container's default PostgreSQL port 5432
+    volumes:
+      - db_data:/var/lib/postgresql/data # Persist data to a named volume
+    restart: always # Automatically restart the container if it stops
+    healthcheck: # Optional: Add a healthcheck for better management
+      test: ["CMD-SHELL", "pg_isready -U ecommerce-akmal -d ecommerce_akmal"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data: # Define the named volume
+
+networks: # Define the custom network
+  db-ecommerce-net:
+    driver: bridge 
