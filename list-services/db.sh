@@ -1,6 +1,7 @@
 docker network create ecommerce-net
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-cd ../db-services
+cd "$PROJECT_ROOT/db-services"
 
 docker-compose up
 
