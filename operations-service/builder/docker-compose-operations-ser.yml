@@ -1,11 +1,11 @@
 services:
-  product-service:
+  operations-service:
     build:
-      context: ..
-      dockerfile: Dockerfile
-    container_name: product-service
+      context: .
+      dockerfile: Dockerfile_ops
+    container_name: operations-service
     ports:
-      - "${SERVICE_HOST}:8081"
+      - "${SERVICE_HOST}:8082"
     environment:
       SERVICE_HOST: "${SERVICE_HOST}"
       DB_HOST: "${DB_HOST}"
