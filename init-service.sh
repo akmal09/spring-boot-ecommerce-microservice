@@ -9,7 +9,7 @@ else
 fi
 
 # Check for Docker Compose (v1 or v2 plugin)
-if [ command -v docker-compose &> /dev/null ]; then
+if [ -x "$(command -v docker-compose)" ]; then
   echo "✅ docker-compose (v1) is installed."
 else
   echo "❌ Docker Compose is not installed. Please install docker-compose or Docker Compose plugin."
