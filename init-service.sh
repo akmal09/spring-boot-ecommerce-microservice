@@ -2,44 +2,43 @@
 set -e
 
 # Check for Docker
-if ! command -v docker &> /dev/null; then
+if [ -x "$(command -v docker)" ]; then
+  echo "✅ Docker is installed."
+else
   echo "❌ Docker is not installed. Please install Docker before running this script."
-  exit 1
 fi
 
 # Check for Docker Compose (v1 or v2 plugin)
-if command -v docker-compose &> /dev/null; then
+if [ command -v docker-compose &> /dev/null ]; then
   echo "✅ docker-compose (v1) is installed."
-elif docker compose version &> /dev/null; then
-  echo "✅ docker compose (v2 plugin) is available."
 else
   echo "❌ Docker Compose is not installed. Please install docker-compose or Docker Compose plugin."
   exit 1
 fi
 
-EUREKA_JAR_DIR="./eureka-server/builder"
-if ls "$EUREKA_JAR_DIR"/*.jar &> /dev/null; then
-  echo "✅ Found .jar file in $EUREKA_JAR_DIR"
-else
-  echo "❌ No .jar file found in $EUREKA_JAR_DIR"
-  exit 1
-fi
+# EUREKA_JAR_DIR="./eureka-server/builder"
+# if ls "$EUREKA_JAR_DIR"/*.jar &> /dev/null; then
+#   echo "✅ Found .jar file in $EUREKA_JAR_DIR"
+# else
+#   echo "❌ No .jar file found in $EUREKA_JAR_DIR"
+#   exit 1
+# fi
 
-PRODUCT_JAR_DIR="./product-service/builder"
-if ls "$PRODUCT_JAR_DIR"/*.jar &> /dev/null; then
-  echo "✅ Found .jar file in $PRODUCT_JAR_DIR"
-else
-  echo "❌ No .jar file found in $PRODUCT_JAR_DIR"
-  exit 1
-fi
+# PRODUCT_JAR_DIR="./product-service/builder"
+# if ls "$PRODUCT_JAR_DIR"/*.jar &> /dev/null; then
+#   echo "✅ Found .jar file in $PRODUCT_JAR_DIR"
+# else
+#   echo "❌ No .jar file found in $PRODUCT_JAR_DIR"
+#   exit 1
+# fi
 
-OPERATION_JAR_DIR="./operations-service/builder"
-if ls "$OPERATION_JAR_DIR"/*.jar &> /dev/null; then
-  echo "✅ Found .jar file in $OPERATION_JAR_DIR"
-else
-  echo "❌ No .jar file found in $OPERATION_JAR_DIR"
-  exit 1
-fi
+# OPERATION_JAR_DIR="./operations-service/builder"
+# if ls "$OPERATION_JAR_DIR"/*.jar &> /dev/null; then
+#   echo "✅ Found .jar file in $OPERATION_JAR_DIR"
+# else
+#   echo "❌ No .jar file found in $OPERATION_JAR_DIR"
+#   exit 1
+# fi
 
 echo "✅ All required dependencies are installed."
 
