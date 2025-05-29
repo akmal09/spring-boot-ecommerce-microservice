@@ -1,0 +1,1 @@
+Okay now please help me to create sh file for initiation of container from database container, eureka-server container, product-service container, operation-service container. the docker-compose file is located in every module.

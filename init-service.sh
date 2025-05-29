@@ -4,14 +4,12 @@ docker network create ecommerce-net
 
 echo "Starting containers..."
 
-MODULES=("db-services" "eureka-server" "product-service" "operation-service")
+docker-compose -f "./db-services/docker-compose.yml" up -d
+sleep 5
+docker-compose -f "./eureka-server/docker-compose.yml" up -d
+sleep 10
+docker-compose -f "./product-service/docker-compose.yml" up -d
 
-for MODULE in "${MODULES[@]}"; do
-  echo "--------------------------------------"
-  echo "Starting services in: $MODULE"
-  echo "--------------------------------------"
-  docker-compose -f "$MODULE/docker-compose.yml" up -d
-done
+docker-compose -f "./operations-service/docker-compose.yml" up -d
 
-echo ""
 echo "✅ All containers started successfully."
