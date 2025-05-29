@@ -1,9 +1,6 @@
 docker network create ecommerce-net
 
-cd "../db-services"
-
-docker-compose up
-
+docker-compose -f "../db-services/docker-compose.yml" up
 
 sleep 5
 
