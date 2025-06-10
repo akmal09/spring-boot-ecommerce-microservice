@@ -21,13 +21,13 @@ print_warning() {
 }
 
 # Function to check if a command exists
-check_command() {
-    if ! command -v $1 &> /dev/null; then
-        print_error "$1 is not installed. Please install it before running this script."
-        exit 1
-    fi
-    print_status "$1 is installed."
-}
+# check_command() {
+#     if ! command -v $1 &> /dev/null; then
+#         print_error "$1 is not installed. Please install it before running this script."
+#         exit 1
+#     fi
+#     print_status "$1 is installed."
+# }
 
 # Function to check if a directory exists
 check_directory() {
@@ -54,7 +54,6 @@ start_service() {
     docker-compose up --remove-orphans -d
     print_status "Waiting for $service_name to start..."
     sleep $wait_time
-    cd - > /dev/null
 }
 
 # Function to stop all services
@@ -74,8 +73,8 @@ stop_services() {
 }
 
 # Check for required commands
-check_command docker
-check_command docker-compose
+# check_command docker
+# check_command docker-compose
 
 # Create network if it doesn't exist
 if ! docker network ls | grep -q "db-ecommerce-net"; then
@@ -103,13 +102,13 @@ print_status "Starting all services..."
 start_service "db-services/builder" "Database Services" 10
 
 # Start Eureka Server
-start_service "eureka-server/builder" "Eureka Server" 15
+start_service "../../eureka-server/builder" "Eureka Server" 15
 
 # Start Product Service
-start_service "product-service/builder" "Product Service" 10
+start_service "../../product-service/builder" "Product Service" 10
 
 # Start Operations Service
-start_service "operations-service/builder" "Operations Service" 10
+start_service "../../operations-service/builder" "Operations Service" 10
 
 print_status "All services have been started successfully!"
 print_status "You can check the status of your services using 'docker ps'"
