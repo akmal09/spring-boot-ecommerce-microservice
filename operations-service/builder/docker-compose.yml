@@ -18,8 +18,6 @@ services:
     networks:
       - db-ecommerce-net
     restart: always
-    depends_on:
-      - db-ecommerce-akmal
 
 networks:
   db-ecommerce-net:
