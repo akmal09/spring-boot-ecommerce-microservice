@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   eureka-server:
     build:
@@ -10,6 +12,8 @@ services:
       SERVICE_PORT: "${SERVICE_PORT}"
     networks:
       - db-ecommerce-net
+    restart: always
+
 networks:
   db-ecommerce-net:
     external: true

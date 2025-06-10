@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   product-service:
     build:
@@ -15,6 +17,10 @@ services:
       EUREKA_HOST: "${EUREKA_HOST}"
     networks:
       - db-ecommerce-net
+    restart: always
+    depends_on:
+      - db-ecommerce-akmal
+
 networks:
   db-ecommerce-net:
     external: true
