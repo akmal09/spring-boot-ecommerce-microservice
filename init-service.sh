@@ -99,16 +99,28 @@ esac
 print_status "Starting all services..."
 
 # Start database services first
-start_service "db-services/builder" "Database Services" 10
+# start_service "db-services/builder" "Database Services" 10
+cd db-services/builder
+docker-compose up -d
+cd ../..
 
 # Start Eureka Server
-start_service "../../eureka-server/builder" "Eureka Server" 15
+# start_service "../../eureka-server/builder" "Eureka Server" 15
+cd eureka-server/builder
+docker-compose up --build -d
+cd ../..
 
 # Start Product Service
-start_service "../../product-service/builder" "Product Service" 10
+# start_service "../../product-service/builder" "Product Service" 10
+cd product-service/builder
+docker-compose up --build -d
+cd ../..
 
 # Start Operations Service
-start_service "../../operations-service/builder" "Operations Service" 10
+# start_service "../../operations-service/builder" "Operations Service" 10
+cd operations-service/builder
+docker-compose up --build -d
+cd ../..
 
 print_status "All services have been started successfully!"
 print_status "You can check the status of your services using 'docker ps'"

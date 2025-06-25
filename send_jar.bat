@@ -1,0 +1,3 @@
+scp -i C:\Users\Akmal.Suranta\.ssh\ecommerce-project-microservice ./eureka-server/target/eureka-server-1.0.0.jar azureuser@20.247.180.27:/home/azureuser/spring-boot-ecommerce-microservice/eureka-server/builder/
+scp -i C:\Users\Akmal.Suranta\.ssh\ecommerce-project-microservice ./operations-service/target/operations-service-1.0.0.jar azureuser@20.247.180.27:/home/azureuser/spring-boot-ecommerce-microservice/operations-service/builder/
+scp -i C:\Users\Akmal.Suranta\.ssh\ecommerce-project-microservice ./product-service/target/product-service-1.0.0.jar azureuser@20.247.180.27:/home/azureuser/spring-boot-ecommerce-microservice/product-service/builder/

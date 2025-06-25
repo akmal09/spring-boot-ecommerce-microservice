@@ -1,0 +1,1 @@
+ssh -i "C:\Users\Akmal.Suranta\.ssh\ecommerce-project-microservice" azureuser@20.247.180.27
