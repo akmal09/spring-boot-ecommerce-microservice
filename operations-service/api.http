@@ -1,0 +1,2 @@
+### Get Product from external product service
+GET http://localhost:8082/external/product 

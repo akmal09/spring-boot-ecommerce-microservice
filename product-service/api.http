@@ -1,1 +1,17 @@
+### Get all products
+GET http://localhost:8081/internal/api/products
+
+### Get product by ID
+GET http://localhost:8081/internal/api/products/1
+
+### Create a new product
+POST http://localhost:8081/internal/api/products
+Content-Type: application/json
+
+{
+  "name": "Sample Product",
+  "price": 100.0
+}
+
+### Get all products with response object
 GET http://localhost:8081/internal/api/products/withresponseObject
