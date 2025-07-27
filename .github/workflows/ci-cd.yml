@@ -30,7 +30,7 @@ jobs:
           cd ${{ matrix.service }}/
           mvn clean install -DskipTests
 
-      - name: Build with Maven with config
+      - name: Build with Maven with config package
         run: |
           cd config/
           cd ${{ matrix_with_config.service }}/
