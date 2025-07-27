@@ -3,7 +3,7 @@ name: Java CI/CD with Maven and Kubernetes
 on:
   push:
     branches:
-      - feature/ci-cd-kubernetes
+      - development
 
 jobs:
   build_and_test:
