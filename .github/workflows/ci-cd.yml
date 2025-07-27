@@ -36,14 +36,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Config Module
-        run: |
-          cd config
-          mvn clean install
-
       - name: Build Product Service
         run: |
-          cd product-service
+          cd config/
+          mvn clean install         
+          cd ../product-service
           mvn clean install
 
   build_and_push_docker_image:
