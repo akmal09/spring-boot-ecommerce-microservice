@@ -1,0 +1,69 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  REGISTRY: ghcr.io/akmal09
+  K8S_NAMESPACE: ecommerce
+
+jobs:
+  build:
+    name: Build & Push Images
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [eureka-server, product-service, operations-service]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u akmal09 --password-stdin
+
+      - name: Build & Push Docker Image
+        run: |
+          IMAGE_NAME=${{ env.REGISTRY }}/${{ matrix.service }}
+          docker build -t $IMAGE_NAME:latest ./${{ matrix.service }}
+          docker push $IMAGE_NAME:latest
+
+  deploy:
+    name: Deploy to Kubernetes
+    runs-on: ubuntu-latest
+    needs: build
+    strategy:
+      matrix:
+        service: [eureka-server, product-service, operations-service]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: v1.29.0
+
+      - name: Try to connect to kubernetes cluster
+        run: |
+          echo "Hello World"	
+
+      # - name: Set up kubeconfig
+      #   run: |
+      #     echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 -d > $HOME/.kube/config
+
+      # - name: Deploy with Helm
+      #   run: |
+      #     IMAGE_NAME=${{ env.REGISTRY }}/${{ matrix.service }}
+      #     helm upgrade --install ${{ matrix.service }} ./helm/${{ matrix.service }} \
+      #       --namespace ${{ env.K8S_NAMESPACE }} --create-namespace \
+      #       --set image.repository=$IMAGE_NAME \
+      #       --set image.tag=latest
