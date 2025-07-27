@@ -11,7 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [ 'config','eureka-server', 'operations-service', 'product-service' ]
+        service: [ 'eureka-server', 'operations-service']
+      matrix_with_config:
+        service: [ 'product-service' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -26,6 +28,12 @@ jobs:
       - name: Build with Maven
         run: |
           cd ${{ matrix.service }}/
+          mvn clean install -DskipTests
+
+      - name: Build with Maven with config
+        run: |
+          cd config/
+          cd ${{ matrix_with_config.service }}/
           mvn clean install -DskipTests
 
   build_and_push_docker_image:
