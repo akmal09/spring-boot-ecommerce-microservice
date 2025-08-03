@@ -99,6 +99,12 @@ jobs:
           name: product-service-jar
           path: ./product-service/target
 
+      - name: Rename JAR file
+        run: |
+          JAR_PATH=$(find ./product-service/target -name "*.jar" | head -n 1)
+          echo "Found JAR: $JAR_PATH"
+          mv "$JAR_PATH" ./product-service/target/product-service-1.0.0.jar
+
       - name: Build Docker image
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
