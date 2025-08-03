@@ -117,3 +117,5 @@ jobs:
           docker build -t product-service:1.0.0 .
           docker tag product-service:1.0.0 ${{ secrets.DOCKER_USERNAME }}/product-service:1.0.0
           docker push ${{ secrets.DOCKER_USERNAME }}/product-service:1.0.0
+
+      
