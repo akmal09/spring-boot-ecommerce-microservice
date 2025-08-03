@@ -57,11 +57,11 @@ jobs:
       - name: Build product-service
         run: mvn clean install -pl product-service -am -DskipTests
       
-      - name: Upload Product JAR
-        uses: actions/upload-artifact@v3
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
         with:
           name: product-service-jar
-          path: product-service/target/*.jar
+          path: ./product-service/target/*.jar
 
   build_matrix_services:
     name: Build Other Services
@@ -93,11 +93,11 @@ jobs:
       - name: Build ${{ matrix.service }}
         run: mvn clean install -pl ${{ matrix.service }} -am -DskipTests
       
-      - name: Download JAR
-        uses: actions/download-artifact@v3
+      - name: Download product-service JAR
+        uses: actions/download-artifact@v4
         with:
           name: product-service-jar
-          path: product-service/target
+          path: ./product-service/target
       # trig
       - name: Build Docker image
         run: |
