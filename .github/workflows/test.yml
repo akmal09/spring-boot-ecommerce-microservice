@@ -102,6 +102,6 @@ jobs:
       - name: Build Docker image
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t product-service:1.0.0 -f product-service/Dockerfile
+          docker build -t product-service:1.0.0 -f product-service/Dockerfile .
           docker tag product-service:1.0.0 ${{ secrets.DOCKER_USERNAME }}/product-service:1.0.0
           docker push ${{ secrets.DOCKER_USERNAME }}/product-service:1.0.0
