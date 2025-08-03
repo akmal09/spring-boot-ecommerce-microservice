@@ -98,7 +98,7 @@ jobs:
         with:
           name: product-service-jar
           path: product-service/target
-      
+      # trig
       - name: 
         - name: Build Docker image
           run: |
