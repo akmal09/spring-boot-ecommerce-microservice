@@ -1,0 +1,1 @@
+mvn clean install -DskipTests || exit /b 1

@@ -1,3 +1,6 @@
+### Get health
+GET http://localhost:8081/
+
 ### Get all products
 GET http://localhost:8081/internal/api/products
 
