@@ -99,11 +99,16 @@ jobs:
           name: product-service-jar
           path: ./product-service/target
 
-      # - name: Rename JAR file
-      #   run: |
-      #     JAR_PATH=$(find ./product-service/target -name "*.jar" | head -n 1)
-      #     echo "Found JAR: $JAR_PATH"
-      #     mv "$JAR_PATH" ./product-service/target/product-service-1.0.0.jar
+      - name: Rename JAR file if necessary
+        run: |
+          JAR_PATH=$(find ./product-service/target -name "*.jar" | head -n 1)
+          echo "Found JAR: $JAR_PATH"
+          
+          if [ "$JAR_PATH" != "./product-service/target/product-service-1.0.0.jar" ]; then
+            mv "$JAR_PATH" ./product-service/target/product-service-1.0.0.jar
+          else
+            echo "No need to rename, file already has correct name."
+          fi
 
       - name: Build Docker image
         run: |
