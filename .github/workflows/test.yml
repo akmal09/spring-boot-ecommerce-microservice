@@ -21,7 +21,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Cache Maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -47,7 +47,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Cache Maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -56,7 +56,7 @@ jobs:
 
       - name: Build product-service
         run: mvn clean install -pl product-service -am -DskipTests
-      
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
@@ -66,7 +66,7 @@ jobs:
   build_matrix_services:
     name: Build Other Services
     runs-on: ubuntu-latest
-    needs: build_config
+    needs: [build_config, build_product_service]
 
     strategy:
       matrix:
@@ -83,7 +83,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Cache Maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -92,18 +92,16 @@ jobs:
 
       - name: Build ${{ matrix.service }}
         run: mvn clean install -pl ${{ matrix.service }} -am -DskipTests
-      
+
       - name: Download product-service JAR
         uses: actions/download-artifact@v4
         with:
           name: product-service-jar
           path: ./product-service/target
-      # trig
+
       - name: Build Docker image
         run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} 
-          docker build -t product-service:1.0.0 -f product-service/Dockerfile 
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t product-service:1.0.0 -f product-service/Dockerfile
           docker tag product-service:1.0.0 ${{ secrets.DOCKER_USERNAME }}/product-service:1.0.0
           docker push ${{ secrets.DOCKER_USERNAME }}/product-service:1.0.0
-
-
