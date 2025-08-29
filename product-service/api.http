@@ -1,5 +1,5 @@
 ### Get health
-GET http://localhost:8081/
+GET http://20.247.180.27/ecom/products/internal/api/products
 
 ### Get all products
 GET http://localhost:8081/internal/api/products
@@ -18,3 +18,5 @@ Content-Type: application/json
 
 ### Get all products with response object
 GET http://localhost:8081/internal/api/products/withresponseObject
+
+
