@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.api.trace.Span;
 import org.springframework.stereotype.Service;
 
 
@@ -23,10 +26,12 @@ public class OperationService {
     
         private final ProductRepository productRepository;
         private final CheckoutRepository checkoutRepository;
+        private final Tracer tracer;
 
-        public OperationService(ProductRepository productRepository, CheckoutRepository checkoutRepository){
+        public OperationService(ProductRepository productRepository, CheckoutRepository checkoutRepository, OpenTelemetry openTelemetry){
             this.productRepository = productRepository;
             this.checkoutRepository = checkoutRepository;
+            this.tracer = openTelemetry.getTracer(OperationService.class.getName());
         }
 
         public ResponseObject getProducts(){
@@ -72,7 +77,8 @@ public class OperationService {
         } 
 
         public ResponseObject addCheckOut(List<AddCheckout> addedProduct){
-            try{
+            Span span = tracer.spanBuilder("addCheckOut").startSpan();
+            try (io.opentelemetry.context.Scope scope = span.makeCurrent()) {
 
                 if(addedProduct.isEmpty()) return new ResponseObject("ERROR_ADD_CHECKOUT", new ArrayList<>()); 
                 
@@ -88,7 +94,10 @@ public class OperationService {
                 
                 return new ResponseObject("SUCCESS", "ADD CHECKOUT SUCCESSFULLY");
             }catch(Exception e){
+                span.recordException(e);
                 return new ResponseObject("ERROR_ADD_CHECKOUT", e.getMessage());
+            } finally {
+                span.end();
             }
         }
 }
