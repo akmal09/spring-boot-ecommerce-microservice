@@ -6,10 +6,9 @@ spring:
     name: operations-service  # This is important for Eureka registration
 
   datasource:
-    url: jdbc:postgresql://localhost:5000/ecommerce_akmal
+    url: jdbc:otel:postgresql://localhost:5000/ecommerce_akmal
     username: ecommerce-akmal
     password: akmal2121234
-    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
@@ -25,3 +24,10 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
+
+otel:
+  exporter:
+    otlp:
+      endpoint: http://localhost:4318
+  service:
+    name: operations-service

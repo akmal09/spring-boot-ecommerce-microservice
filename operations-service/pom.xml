@@ -72,10 +72,12 @@
 		<dependency>
 			<groupId>io.opentelemetry.instrumentation</groupId>
 			<artifactId>opentelemetry-spring-boot-starter</artifactId>
+			<version>${opentelemetry.instrumentation.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.opentelemetry.instrumentation</groupId>
 			<artifactId>opentelemetry-jdbc</artifactId>
+			<version>${opentelemetry.instrumentation.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.project</groupId>
