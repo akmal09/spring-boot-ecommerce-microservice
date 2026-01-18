@@ -1,9 +1,1 @@
-please revised this bat script
-@echo off
-echo Running mvn clean install...
-cd ../config
-build.bat || exit /b 1
-cd ../product-service
-mvn spring-boot:run
-
-o after the jar in config folder built, then it continues to the next process
+Now i want you to build observability tools using LGTM stack, but before LGTM stack is implemented please help me to create opentelemetry for instrumenting and collecting data for logs or metric in this spring boot repository. Now lets build opentelemetry agent and opentelemetry collector for this repository.

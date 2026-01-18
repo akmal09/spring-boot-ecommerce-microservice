@@ -1,28 +1,39 @@
 package com.project.operations.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
+import java.util.ArrayList;
+
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+
+import com.project.config.ResponseObject;
+import com.project.operations.services.OperationService;
 
 @RestController
 @RequestMapping("/external/product")
 public class OperationsController {
-    @Autowired
-    private RestTemplate restTemplate;
+    private final OperationService operationService;
+
+    public OperationsController(OperationService operationService){
+        this.operationService = operationService;
+    }
 
     @GetMapping
-    public void getProduct(){
+    public ResponseEntity<?> getProductDirect(){
+        try{
+            ResponseObject getProducts = operationService.getProducts();
+            ResponseEntity<?> response = new ResponseEntity<>(getProducts, HttpStatusCode.valueOf(200));
+            return response;
+        }catch(Exception e){
+            ResponseEntity<?> response = new ResponseEntity<>(new ArrayList<>(), HttpStatusCode.valueOf(500));
 
-        ResponseEntity<?> response= restTemplate.exchange(
-                "http://product-service/internal/api/products/withresponseObject",
-            HttpMethod.GET,
-                null,
-                Object.class
-        );
-        System.out.println(response.getBody());
+            return response;
+        }
     }
+
+    // # Add controller in every operations service
+
+    // # add open telemetry agent in every controller and service
 }
