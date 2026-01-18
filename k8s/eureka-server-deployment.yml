@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: eureka-server
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/eureka-server:latest
+          image: akmal23/eureka-server:latest
           ports:
             - containerPort: 8761
 ---

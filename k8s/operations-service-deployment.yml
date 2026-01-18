@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: operations-service
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/operations-service:latest
+          image: akmal23/operations-service:latest
           ports:
             - containerPort: 8081
 ---
