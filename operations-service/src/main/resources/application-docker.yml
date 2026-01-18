@@ -25,3 +25,24 @@ eureka:
       defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
   instance:
     prefer-ip-address: true
+
+# Datadog Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      datadog:
+        enabled: true
+        api-key: ${DD_API_KEY:your-datadog-api-key}
+        application-key: ${DD_APP_KEY:your-datadog-app-key}
+        step: 30s
+        descriptions: true
+        host-tag: ${DD_HOST:localhost}
+        service: operations-service
+        source: spring-boot

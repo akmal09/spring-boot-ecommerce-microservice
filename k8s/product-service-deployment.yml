@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: product-service
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/product-service:latest
+          image: akmal23/product-service:latest
           ports:
             - containerPort: 8082
 ---

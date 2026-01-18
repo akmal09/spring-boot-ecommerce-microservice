@@ -1,0 +1,119 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  build_config:
+    name: Build Config Module
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build config module
+        run: mvn clean install -pl config -am -DskipTests
+
+  build_product_service:
+    name: Build Product Service
+    runs-on: ubuntu-latest
+    needs: build_config
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build product-service
+        run: mvn clean install -pl product-service -am -DskipTests
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: product-service-jar
+          path: ./product-service/target/*.jar
+
+  build_matrix_services:
+    name: Build Other Services
+    runs-on: ubuntu-latest
+    needs: [build_config, build_product_service]
+
+    strategy:
+      matrix:
+        service: [ 'eureka-server', 'operations-service' ]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build ${{ matrix.service }}
+        run: mvn clean install -pl ${{ matrix.service }} -am -DskipTests
+
+      - name: Download product-service JAR
+        uses: actions/download-artifact@v4
+        with:
+          name: product-service-jar
+          path: ./product-service/target
+
+      - name: Rename JAR file if necessary
+        run: |
+          JAR_PATH=$(find ./product-service/target -name "*.jar" | head -n 1)
+          echo "Found JAR: $JAR_PATH"
+
+          if [ "$JAR_PATH" != "./product-service/target/product-service-1.0.0.jar" ]; then
+            mv "$JAR_PATH" ./product-service/target/product-service-1.0.0.jar
+          else
+            echo "No need to rename, file already has correct name."
+          fi
+
+      - name: Build and upload Docker image
+        run: |
+          cd product-service
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t product-service:1.0.0 .
+          docker tag product-service:1.0.0 ${{ secrets.DOCKER_USERNAME }}/product-service:1.0.0
+          docker push ${{ secrets.DOCKER_USERNAME }}/product-service:1.0.0
