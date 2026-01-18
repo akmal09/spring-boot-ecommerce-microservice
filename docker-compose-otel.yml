@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.91.0
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "4317:4317" # OTLP gRPC
+      - "4318:4318" # OTLP HTTP
+      - "8889:8889" # Prometheus metrics exporter
+    networks:
+      - ecommerce-network
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686" # Jaeger UI
+      - "4317"        # OTLP gRPC receiver
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - ecommerce-network
+
+  postgres:
+    image: postgres:15
+    container_name: postgres-ecommerce
+    environment:
+      - POSTGRES_DB=ecommerce_akmal
+      - POSTGRES_USER=ecommerce-akmal
+      - POSTGRES_PASSWORD=akmal2121234
+    ports:
+      - "5432:5432"
+    networks:
+      - ecommerce-network
+
+  eureka-server:
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - EUREKA_HOST=eureka-server
+    networks:
+      - ecommerce-network
+
+  operations-service:
+    build:
+      context: ./operations-service
+      dockerfile: Dockerfile
+    container_name: operations-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SERVICE_HOST=8082
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=ecommerce-akmal
+      - DB_PASSWORD=akmal2121234
+      - EUREKA_HOST=eureka-server
+      # Point to OTel Collector
+      - OTEL_EXPORTER_OTLP_ENDPOINT=otel-collector:4318
+    networks:
+      - ecommerce-network
+    depends_on:
+      - eureka-server
+      - postgres
+      - otel-collector
+
+networks:
+  ecommerce-network:
+    driver: bridge
