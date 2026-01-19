@@ -26,6 +26,31 @@ eureka:
   instance:
     prefer-ip-address: true
 
+# OpenTelemetry Configuration
+otel:
+  service:
+    name: operations-service
+    version: 1.0.0
+  exporter:
+    otlp:
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4317}
+      headers: ${OTEL_EXPORTER_OTLP_HEADERS:}
+  traces:
+    exporter: otlp
+  metrics:
+    exporter: otlp
+  logs:
+    exporter: otlp
+  instrumentation:
+    spring-webmvc:
+      enabled: true
+    jdbc:
+      enabled: true
+    http-clients:
+      enabled: true
+    logback-appender:
+      enabled: true
+
 # Datadog Configuration
 management:
   endpoints:
@@ -46,3 +71,15 @@ management:
         host-tag: ${DD_HOST:localhost}
         service: operations-service
         source: spring-boot
+  tracing:
+    sampling:
+      probability: 1.0
+
+# Logging configuration for better observability
+logging:
+  level:
+    com.project.operations: DEBUG
+    org.springframework.web: INFO
+    org.springframework.jdbc: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{traceId},%X{spanId}] %logger{36} - %msg%n"

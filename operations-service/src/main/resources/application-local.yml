@@ -25,3 +25,54 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
+
+# OpenTelemetry Configuration for Local Development
+otel:
+  service:
+    name: operations-service
+    version: 1.0.0
+  resource:
+    attributes:
+      service.name: operations-service
+      service.version: 1.0.0
+      deployment.environment: local
+  exporter:
+    otlp:
+      endpoint: http://localhost:4317
+      protocol: grpc
+      timeout: 30s
+  traces:
+    exporter: otlp
+  metrics:
+    exporter: otlp
+  logs:
+    exporter: otlp
+  instrumentation:
+    spring-webmvc:
+      enabled: true
+    jdbc:
+      enabled: true
+    http-clients:
+      enabled: true
+    logback-appender:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,traces
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
+
+# Logging configuration
+logging:
+  level:
+    com.project.operations: DEBUG
+    org.springframework.web: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{traceId},%X{spanId}] %logger{36} - %msg%n"
